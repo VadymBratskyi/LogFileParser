@@ -7,7 +7,7 @@ using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Bson.Serialization.IdGenerators;
 
-namespace LogParserEithMongoDb.Model
+namespace LogParserWithMongoDb.Model
 {
     class LogFile
     {

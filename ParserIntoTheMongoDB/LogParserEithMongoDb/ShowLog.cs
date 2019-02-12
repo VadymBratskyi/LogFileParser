@@ -7,13 +7,13 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using LogParserEithMongoDb.MongoDB;
-using LogParserEithMongoDb.Process;
+using LogParserWithMongoDb.MongoDB;
+using LogParserWithMongoDb.Process;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using Newtonsoft.Json.Linq;
 
-namespace LogParserEithMongoDb
+namespace LogParserWithMongoDb
 {
     public partial class ShowLog : Form
     {

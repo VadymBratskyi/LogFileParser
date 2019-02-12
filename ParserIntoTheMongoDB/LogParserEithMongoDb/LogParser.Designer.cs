@@ -1,4 +1,4 @@
-﻿namespace LogParserEithMongoDb
+﻿namespace LogParserWithMongoDb
 {
     partial class LogParser
     {
@@ -98,7 +98,7 @@
             // 
             // showDatasToolStripMenuItem
             // 
-            this.showDatasToolStripMenuItem.Image = global::LogParserEithMongoDb.Properties.Resources.analysis;
+            this.showDatasToolStripMenuItem.Image = global::LogParserWithMongoDb.Properties.Resources.analysis;
             this.showDatasToolStripMenuItem.Name = "showDatasToolStripMenuItem";
             this.showDatasToolStripMenuItem.Size = new System.Drawing.Size(96, 20);
             this.showDatasToolStripMenuItem.Text = "Show Datas";

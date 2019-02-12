@@ -8,12 +8,12 @@ using System.Management.Instrumentation;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using LogParserEithMongoDb.Model;
+using LogParserWithMongoDb.Model;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoDB.Driver.GridFS;
 
-namespace LogParserEithMongoDb.MongoDB
+namespace LogParserWithMongoDb.MongoDB
 {
     class DbContext
     {
@@ -35,6 +35,8 @@ namespace LogParserEithMongoDb.MongoDB
         [ThreadStatic]
         private static IMongoCollection<Error> _mongoErrors;
 
+        [ThreadStatic]
+        private static IMongoCollection<StatusError> _mongoStatusErrors;
 
         public async Task SaveLogFile(LogFile logFile)
         {
@@ -52,6 +54,12 @@ namespace LogParserEithMongoDb.MongoDB
         {
             var collection = GetErrors();
             await collection.InsertManyAsync(errors);
+        }
+
+        public async Task SaveStatusErrors(List<StatusError> statusErrors)
+        {
+            var collection = GetStatusErrors();
+            await collection.InsertManyAsync(statusErrors);
         }
 
         private MongoClient GetClient()
@@ -98,6 +106,15 @@ namespace LogParserEithMongoDb.MongoDB
                 _mongoErrors = GetDB().GetCollection<Error>("Errors");
             }
             return _mongoErrors;
+        }
+
+        private IMongoCollection<StatusError> GetStatusErrors()
+        {
+            if (_mongoStatusErrors == null)
+            {
+                _mongoStatusErrors = GetDB().GetCollection<StatusError>("StatusError");
+            }
+            return _mongoStatusErrors;
         }
 
         public List<string> GetCollections()

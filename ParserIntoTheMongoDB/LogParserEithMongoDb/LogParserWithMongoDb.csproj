@@ -7,8 +7,8 @@
     <ProjectGuid>{E46702AA-53E0-44E0-A1B4-99CE02F00971}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>LogParserEithMongoDb</RootNamespace>
-    <AssemblyName>LogParserEithMongoDb</AssemblyName>
+    <RootNamespace>LogParserWithMongoDb</RootNamespace>
+    <AssemblyName>LogParserWithMongoDb</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -81,11 +81,15 @@
       <DependentUpon>LogParser.cs</DependentUpon>
     </Compile>
     <Compile Include="Model\Error.cs" />
+    <Compile Include="Model\KnownError.cs" />
     <Compile Include="Model\Log.cs" />
     <Compile Include="Model\LogFile.cs" />
+    <Compile Include="Model\StatusError.cs" />
+    <Compile Include="Model\UnknownError.cs" />
     <Compile Include="MongoDB\DataProcessor.cs" />
     <Compile Include="MongoDB\DbContext.cs" />
     <Compile Include="Process\BuildTree.cs" />
+    <Compile Include="Process\InitDbLogHelper.cs" />
     <Compile Include="Process\LogAnaliz.cs" />
     <Compile Include="Process\Parser.cs" />
     <Compile Include="Program.cs" />

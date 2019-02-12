@@ -9,15 +9,15 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using LogParserEithMongoDb.Model;
-using LogParserEithMongoDb.MongoDB;
+using LogParserWithMongoDb.Model;
+using LogParserWithMongoDb.MongoDB;
 using MongoDB.Bson;
 using Newtonsoft.Json.Linq;
 using MongoDB.Bson.Serialization;
 using Timer = System.Windows.Forms.Timer;
 
 
-namespace LogParserEithMongoDb.Process
+namespace LogParserWithMongoDb.Process
 {
     class Parser
     {
@@ -26,7 +26,7 @@ namespace LogParserEithMongoDb.Process
         private const string RegOutput = @"(^(Output)( = .*))";
         private const string RegStart= @"(=>.*)";
         private const string RegEnd= @"(<=.*)";
-        private const string RegError= @"error";
+        private const string RegError= @"""error""";
         private const string RegDate = @"([0-3]?[0-9]/[0-3]?[0-9]/(?:[0-9]{2})?[0-9]{2})\s(1[0-2]|[0-9]):(00|0[1-9]{1}|[1-5]{1}[0-9]):(00|0[1-9]{1}|[1-5]{1}[0-9])\s(PM|AM)";
         protected static List<Log> LogsList = new List<Log>();
         protected static List<Log> TempLogsList = new List<Log>();
@@ -69,6 +69,8 @@ namespace LogParserEithMongoDb.Process
                     await DataProcessor.SaveLogFileIntoDb(logFile);
                     var resultParsDoc = await ParsDocument(path, logFile);
                     await DataProcessor.SaveDocumentsIntoDb(LogsList);
+
+                    await DataProcessor.SaveErrorsIntoDb(ErrorsList);
 
                     logParser.textBox1.AppendText(resultParsDoc);
                     countRows += LogsList.Count;
@@ -236,7 +238,7 @@ namespace LogParserEithMongoDb.Process
             var parsError = Regex.Match(json, RegError, RegexOptions.IgnoreCase);
             if (parsError.Success)
             {
-                dynamic error = JObject.Parse(json);
+                DataProcessor.CreateError(json);
             }
 
             return null;

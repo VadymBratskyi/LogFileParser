@@ -10,19 +10,20 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using LogParserEithMongoDb.MongoDB;
-using LogParserEithMongoDb.Process;
+using LogParserWithMongoDb.MongoDB;
+using LogParserWithMongoDb.Process;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using Timer = System.Windows.Forms.Timer;
 
 
-namespace LogParserEithMongoDb
+namespace LogParserWithMongoDb
 {
     public partial class LogParser : Form
     {
         public LogParser()
         {
+            InitDbLogHelper.InitDb();
             InitializeComponent();
         }
 

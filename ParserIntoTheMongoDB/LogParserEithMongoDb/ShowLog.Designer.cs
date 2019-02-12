@@ -1,4 +1,4 @@
-﻿namespace LogParserEithMongoDb
+﻿namespace LogParserWithMongoDb
 {
     partial class ShowLog
     {
@@ -209,7 +209,7 @@
             // pictureBox2
             // 
             this.pictureBox2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pictureBox2.Image = global::LogParserEithMongoDb.Properties.Resources.spinner;
+            this.pictureBox2.Image = global::LogParserWithMongoDb.Properties.Resources.spinner;
             this.pictureBox2.Location = new System.Drawing.Point(0, 0);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Size = new System.Drawing.Size(1109, 364);
@@ -313,7 +313,7 @@
             // 
             // button7
             // 
-            this.button7.BackgroundImage = global::LogParserEithMongoDb.Properties.Resources.sL;
+            this.button7.BackgroundImage = global::LogParserWithMongoDb.Properties.Resources.sL;
             this.button7.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.button7.Location = new System.Drawing.Point(206, 3);
             this.button7.Name = "button7";
@@ -342,7 +342,7 @@
             // 
             // button6
             // 
-            this.button6.BackgroundImage = global::LogParserEithMongoDb.Properties.Resources.sR;
+            this.button6.BackgroundImage = global::LogParserWithMongoDb.Properties.Resources.sR;
             this.button6.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.button6.Location = new System.Drawing.Point(322, 3);
             this.button6.Name = "button6";
@@ -393,7 +393,7 @@
             // pictureBox1
             // 
             this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pictureBox1.Image = global::LogParserEithMongoDb.Properties.Resources.spinner;
+            this.pictureBox1.Image = global::LogParserWithMongoDb.Properties.Resources.spinner;
             this.pictureBox1.Location = new System.Drawing.Point(5, 5);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(392, 387);

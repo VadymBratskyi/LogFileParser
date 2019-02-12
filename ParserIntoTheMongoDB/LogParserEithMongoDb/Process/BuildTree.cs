@@ -7,7 +7,7 @@ using System.Windows.Forms;
 using MongoDB.Bson;
 using Newtonsoft.Json.Linq;
 
-namespace LogParserEithMongoDb.Process
+namespace LogParserWithMongoDb.Process
 {
     class BuildTree : LogAnaliz
     {

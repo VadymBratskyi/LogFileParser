@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using MongoDB.Bson;
 using Newtonsoft.Json.Linq;
 
-namespace LogParserEithMongoDb.Process
+namespace LogParserWithMongoDb.Process
 {
     class  LogAnaliz
     {
