@@ -7,9 +7,11 @@ using MongoDB.Bson;
 
 namespace LogParserWithMongoDb.Model
 {
-    class Error
+    public class Error
     {
         public ObjectId Id { get; set; }
+        public string Message { get; set; }
+        public string Details { get; set; }
         public BsonDocument ResponsError { get; set; }
     }
 }

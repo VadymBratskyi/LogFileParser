@@ -31,53 +31,7 @@ namespace LogParserWithMongoDb.MongoDB
             };
             return lf;
         }
-
-        /// <summary>
-        /// создание Error object
-        /// </summary>
-        public static void CreateError(string output)
-        {
-            
-            //dynamic jsOutput = JObject.Parse(output);
-
-            //var stastus = jsOutput.status;
-            //if (stastus != null && stastus == "OK")
-            //{
-            //    var error = new Error();
-            //    error.ResponsError = BsonDocument.Parse(jsOutput.ToString());
-            //    ErrorsList.Add(error);
-            //}
-            //else
-            //{
-            //    var error = new Error();
-            //    error. ResponsError = BsonDocument.Parse(jsOutput.ToString());
-            //    ErrorsList.Add(error);
-            //}
-
-            var error = new Error();
-            error.ResponsError = BsonDocument.Parse(output);
-            ErrorsList.Add(error);
-
-            //var resultArr = jsOutput.RESULT;
-            //if (resultArr != null)
-            //{
-            //    var result = JArray.Parse(jsOutput.RESULT.ToString());
-            //    foreach (var res in result)
-            //    {
-            //        var jsError = res.error;
-            //        if (jsError != null)
-            //        {
-            //            var error = new Error();
-            //            error.Message = res.error;
-            //            ErrorsList.Add(error);
-            //        }
-
-            //    } 
-            //}
-
-
-        }
-
+        
         /// <summary>
         /// проверяем в темповой колекции наявность этого обьекта,
         /// если нету, то создаем новый и помещаем в темповую колекцию,
@@ -116,6 +70,87 @@ namespace LogParserWithMongoDb.MongoDB
             if (log != null)
             {
                 RemovefromTempList(log);
+            }
+
+        }
+
+        /// <summary>
+        /// создание Error object
+        /// </summary>
+        public static void CreateError(string output)
+        {
+            dynamic jsOutput = JObject.Parse(output);
+
+            var stastus = jsOutput.status;
+            if (stastus != null && stastus == "OK")
+            {
+                var result = JArray.Parse(jsOutput.RESULT.ToString());
+                foreach (var res in result)
+                {
+                    var jsError = res.error;
+                    if (jsError != null)
+                    {
+                        var error = new Error();
+                        error.Message = res.error;
+                        error.ResponsError = BsonDocument.Parse(jsOutput.ToString());
+                        CreateUnKnownError(error);
+                        ErrorsList.Add(error);
+                    }
+
+                }
+            }
+            else
+            {
+                var jsError = jsOutput.error;
+                if (jsError!= null)
+                {
+                    var error = new Error();
+                    error.Message = jsOutput.error.message;
+                    error.Details = jsOutput.error.data;
+                    error.ResponsError = BsonDocument.Parse(jsOutput.ToString());
+                    CreateUnKnownError(error);
+                    ErrorsList.Add(error);
+                }
+               
+            }
+
+        }
+
+        /// <summary>
+        /// создаем не извесные ошибки
+        /// </summary>
+        private static void CreateUnKnownError(Error error)
+        {
+            var index = error.Message.IndexOf(".'");
+            var sms = index >= 0 ? error.Message.Substring(0, index) : error.Message;
+
+            IEnumerable<string> arrError = sms.Trim().Split(' ');
+
+            UnKnownError findUnKnownError = null;
+
+            string message = "";
+
+            foreach (var err in arrError)
+            {
+                int res;
+                var dd = Int32.TryParse(err, out res);
+                if (err.IndexOf("'") < 0 && res == 0)
+                {
+                    message += err+" ";
+                }
+            }
+
+            findUnKnownError = unKnownErrorsList.Find(o => o.ErrorText == message.TrimEnd());
+
+            if (findUnKnownError == null)
+            {
+                var unError = new UnKnownError()
+                {
+                    ErrorText = message.TrimEnd(),
+                    Error = error.ResponsError
+                };
+                
+                unKnownErrorsList.Add(unError);
             }
 
         }
@@ -160,11 +195,27 @@ namespace LogParserWithMongoDb.MongoDB
         }
 
         /// <summary>
-        /// сохраннение Errors обьектов
+        /// сохраннение StatusError обьектов
         /// </summary>
         public static async Task SaveStatusErrorsIntoDb(List<StatusError> statusErrors)
         {
             await db.SaveStatusErrors(statusErrors);
+        }
+
+        /// <summary>
+        /// сохраннение UnKnownError обьектов
+        /// </summary>
+        public static async Task SaveUnKnownErrorsIntoDb(List<UnKnownError> unKnownError)
+        {
+            await db.SaveUnKnownErrors(unKnownError);
+        }
+
+        /// <summary>
+        /// сохраннение KnownError обьектов
+        /// </summary>
+        public static async Task SaveKnownErrorsIntoDb(List<KnownError> knownError)
+        {
+            await db.SaveKnownErrors(knownError);
         }
 
         public static List<string> GetCollections()

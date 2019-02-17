@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -557,6 +558,40 @@ namespace LogParserWithMongoDb
                 }
             }
         }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+           
+        }
+
+        private void splitContainer3_Panel1_Paint(object sender, PaintEventArgs e)
+        {
+            LoadData();
+        }
+
+        private void LoadData()
+        {
+            var source = new BindingSource();
+            var data = InitDbLogHelper.GetUnKnownErrors();
+            source.DataSource = data;
+            dataGridView1.DataSource = source;
+        }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                DataGridViewRow row = this.dataGridView1.Rows[e.RowIndex];
+
+                var id = row.Cells["Id"].Value.ToString();
+                var message = row.Cells["ErrorText"].Value.ToString();
+            }
+        }
+
+        private void button4_Click_1(object sender, EventArgs e)
+        {
+
+        }
     }
 
     public static class TreeExtension
@@ -572,7 +607,10 @@ namespace LogParserWithMongoDb
                 .Concat(coll.Cast<TreeNode>()
                     .SelectMany(x => FlattenTree(x.Nodes)));
         }
+        
     }
+
+    
 
 }
 

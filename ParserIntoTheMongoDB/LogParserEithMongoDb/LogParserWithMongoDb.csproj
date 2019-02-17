@@ -85,10 +85,11 @@
     <Compile Include="Model\Log.cs" />
     <Compile Include="Model\LogFile.cs" />
     <Compile Include="Model\StatusError.cs" />
-    <Compile Include="Model\UnknownError.cs" />
+    <Compile Include="Model\UnKnownError.cs" />
     <Compile Include="MongoDB\DataProcessor.cs" />
     <Compile Include="MongoDB\DbContext.cs" />
     <Compile Include="Process\BuildTree.cs" />
+    <Compile Include="Process\ErrorAnaliz.cs" />
     <Compile Include="Process\InitDbLogHelper.cs" />
     <Compile Include="Process\LogAnaliz.cs" />
     <Compile Include="Process\Parser.cs" />

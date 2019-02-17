@@ -38,6 +38,12 @@ namespace LogParserWithMongoDb.MongoDB
         [ThreadStatic]
         private static IMongoCollection<StatusError> _mongoStatusErrors;
 
+        [ThreadStatic]
+        private static IMongoCollection<UnKnownError> _mongoUnKnownErrors;
+
+        [ThreadStatic]
+        private static IMongoCollection<KnownError> _mongoKnownErrors;
+
         public async Task SaveLogFile(LogFile logFile)
         {
             var collection = GetLogFiles();
@@ -60,6 +66,18 @@ namespace LogParserWithMongoDb.MongoDB
         {
             var collection = GetStatusErrors();
             await collection.InsertManyAsync(statusErrors);
+        }
+
+        public async Task SaveUnKnownErrors(List<UnKnownError> unKnownError)
+        {
+            var collection = GetUnKnownErrors();
+            await collection.InsertManyAsync(unKnownError);
+        }
+
+        public async Task SaveKnownErrors(List<KnownError> knownError)
+        {
+            var collection = GetKnownErrors();
+            await collection.InsertManyAsync(knownError);
         }
 
         private MongoClient GetClient()
@@ -115,6 +133,24 @@ namespace LogParserWithMongoDb.MongoDB
                 _mongoStatusErrors = GetDB().GetCollection<StatusError>("StatusError");
             }
             return _mongoStatusErrors;
+        }
+
+        private IMongoCollection<UnKnownError> GetUnKnownErrors()
+        {
+            if (_mongoUnKnownErrors == null)
+            {
+                _mongoUnKnownErrors = GetDB().GetCollection<UnKnownError>("UnKnownError");
+            }
+            return _mongoUnKnownErrors;
+        }
+
+        private IMongoCollection<KnownError> GetKnownErrors()
+        {
+            if (_mongoKnownErrors == null)
+            {
+                _mongoKnownErrors = GetDB().GetCollection<KnownError>("KnownError");
+            }
+            return _mongoKnownErrors;
         }
 
         public List<string> GetCollections()

@@ -7,9 +7,10 @@ using MongoDB.Bson;
 
 namespace LogParserWithMongoDb.Model
 {
-    public class UnknownError
+    public class UnKnownError
     {
         public ObjectId Id { get; set; }
+        public string ErrorText { get; set; }
         public BsonDocument Error { get; set; }
     }
 }

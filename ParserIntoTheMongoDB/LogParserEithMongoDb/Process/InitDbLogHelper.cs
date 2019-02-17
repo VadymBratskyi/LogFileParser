@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using LogParserWithMongoDb.Model;
 using LogParserWithMongoDb.MongoDB;
 using MongoDB.Bson;
+using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
 
 namespace LogParserWithMongoDb.Process
@@ -32,5 +33,15 @@ namespace LogParserWithMongoDb.Process
                 new StatusError(){ StatusCode = 500, StatusTitle = "Server Error"}
             };
         }
+
+
+        public static IEnumerable<UnKnownError> GetUnKnownErrors()
+        {
+            var filter = Builders<BsonDocument>.Filter.Empty;
+            var dt = DataProcessor.GetDataFind(filter, "UnKnownError", 0, Int32.MaxValue).Result;
+            return dt.Select(d => BsonSerializer.Deserialize<UnKnownError>(d));
+        }
+
+
     }
 }
