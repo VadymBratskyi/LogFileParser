@@ -44,6 +44,9 @@ namespace LogParserWithMongoDb.MongoDB
         [ThreadStatic]
         private static IMongoCollection<KnownError> _mongoKnownErrors;
 
+        [ThreadStatic]
+        private static IMongoCollection<Answer> _mongoAnswers;
+
         public async Task SaveLogFile(LogFile logFile)
         {
             var collection = GetLogFiles();
@@ -74,11 +77,19 @@ namespace LogParserWithMongoDb.MongoDB
             await collection.InsertManyAsync(unKnownError);
         }
 
-        public async Task SaveKnownErrors(List<KnownError> knownError)
+        public async Task SaveKnownErrors(KnownError knownError)
         {
             var collection = GetKnownErrors();
-            await collection.InsertManyAsync(knownError);
+            await collection.InsertOneAsync(knownError);
         }
+
+        public async Task SaveAnswers(Answer answers)
+        {
+            var collection = GetAnswers();
+            await collection.InsertOneAsync(answers);
+        }
+
+        
 
         private MongoClient GetClient()
         {
@@ -153,6 +164,15 @@ namespace LogParserWithMongoDb.MongoDB
             return _mongoKnownErrors;
         }
 
+        private IMongoCollection<Answer> GetAnswers()
+        {
+            if (_mongoAnswers == null)
+            {
+                _mongoAnswers = GetDB().GetCollection<Answer>("Answers");
+            }
+            return _mongoAnswers;
+        }
+
         public List<string> GetCollections()
         {
             var server = GetClient().GetServer();
@@ -167,6 +187,12 @@ namespace LogParserWithMongoDb.MongoDB
             return database;
         }
 
+
+        public Task DeleteObject(FilterDefinition<BsonDocument> bsnQuery, string collection)
+        {
+            var logs = GetDB().GetCollection<BsonDocument>(collection);
+            return logs.DeleteOneAsync(bsnQuery);
+        }
 
         public Task<List<BsonDocument>> GetDataFind(FilterDefinition<BsonDocument> bsnQuery, string collection, int? skip, int limit)
         {

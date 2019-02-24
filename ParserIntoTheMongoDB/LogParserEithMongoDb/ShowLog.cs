@@ -8,9 +8,11 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using LogParserWithMongoDb.Model;
 using LogParserWithMongoDb.MongoDB;
 using LogParserWithMongoDb.Process;
 using MongoDB.Bson;
+using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
 using Newtonsoft.Json.Linq;
 
@@ -19,19 +21,21 @@ namespace LogParserWithMongoDb
     public partial class ShowLog : Form
     {
         private List<QueryModel> queryList = new List<QueryModel>();
-        private readonly List<string> _listCollections;
+        private List<string> _listCollections;
+        private List<Answer> _listAnswers;
         HashSet<TreeNode> _listNodes;
         private readonly string _dbName;
         private readonly SynchronizationContext _synchronizationContext;
         public int DefaultCountTake = 50;
         public int Skip = 0;
 
+        private UnKnownError SelectedUnknownError;
+
         public ShowLog()
         {  
             _listCollections = DataProcessor.GetCollections();
             _dbName = DataProcessor.GetDatabase().Name;
             InitializeComponent();
-            LoadDataControls();
         }
 
         private void LoadDataControls()
@@ -159,6 +163,7 @@ namespace LogParserWithMongoDb
 
         private async void button2_Click(object sender, EventArgs e)
         {
+            LoadDataControls();
             treeView2.CheckBoxes = true;
             treeView2.DrawMode = TreeViewDrawMode.OwnerDrawAll;
             var data = await LoadDataToBuildQuery();
@@ -559,8 +564,49 @@ namespace LogParserWithMongoDb
             }
         }
 
-        private void button4_Click(object sender, EventArgs e)
+        private async void button4_Click(object sender, EventArgs e)
         {
+            var selectedError = SelectedUnknownError;
+
+            if (selectedError != null && textBox3.Text != "")
+            {
+                var txtAnswer = textBox3.Text;
+                var answer = new Answer()
+                {
+                    Id = ObjectId.GenerateNewId(),
+                    Text = txtAnswer
+                };
+
+                var bsonValue = BsonDocument.Parse(answer.ToJson());
+
+                var knowError = new KnownError()
+                {
+                    Message = selectedError.ErrorText,
+                    Error = selectedError.Error,
+                    Answer = bsonValue
+                };
+
+                await DataProcessor.SaveKnownErrorsIntoDb(knowError);
+
+                var filter1 = Builders<BsonDocument>.Filter.Eq("Text", answer.Text);
+                var answers = await DataProcessor.GetDataFind(filter1, "Answers",0,Int32.MaxValue);
+
+                if (!answers.Any())
+                {
+                    await DataProcessor.SaveAnswerIntoDb(answer);
+                }
+
+                var filter2 = Builders<BsonDocument>.Filter.Eq("_id", selectedError.Id);
+                await DataProcessor.DeleteDocument(filter2, "UnKnownError");
+
+                var filter = Builders<BsonDocument>.Filter.Empty;
+                var data = DataProcessor.GetDataFind(filter, "Answers", 0, Int32.MaxValue).Result;
+                _listAnswers = data.Select(d => BsonSerializer.Deserialize<Answer>(d)).ToList();
+                comboBox2.DataSource = _listAnswers;
+                LoadData();
+
+                textBox3.Text = "";
+            }
            
         }
 
@@ -577,7 +623,8 @@ namespace LogParserWithMongoDb
             dataGridView1.DataSource = source;
         }
 
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+
+        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0)
             {
@@ -585,12 +632,36 @@ namespace LogParserWithMongoDb
 
                 var id = row.Cells["Id"].Value.ToString();
                 var message = row.Cells["ErrorText"].Value.ToString();
+                var error = row.Cells["Error"].Value.ToString();
+                textBox2.Text = message;
+                textBox3.Text = String.Empty;
+                SelectedUnknownError = new UnKnownError(){Id = new ObjectId(id), ErrorText = message, Error = BsonDocument.Parse(error) };
             }
         }
 
-        private void button4_Click_1(object sender, EventArgs e)
+        private void tabControl1_Selected(object sender, TabControlEventArgs e)
         {
+            if (e.TabPageIndex == 1)
+            {
+                _listCollections = DataProcessor.GetCollections();
+                LoadDataControls();
+            }
+            else if (e.TabPageIndex == 2)
+            {
+                var filter = Builders<BsonDocument>.Filter.Empty;
+                var data = DataProcessor.GetDataFind(filter, "Answers", 0, Int32.MaxValue).Result;
+                _listAnswers = data.Select(d => BsonSerializer.Deserialize<Answer>(d)).ToList();
+                comboBox2.DataSource = _listAnswers;
+                comboBox2.DisplayMember = "Text";
+                comboBox2.ValueMember = "Id";
+                textBox3.Text = String.Empty;
+            }
+        }
 
+        private void button8_Click(object sender, EventArgs e)
+        {
+            var selectedItem = comboBox2.SelectedItem as Answer;
+            textBox3.Text = selectedItem == null ? String.Empty : selectedItem.Text;
         }
     }
 

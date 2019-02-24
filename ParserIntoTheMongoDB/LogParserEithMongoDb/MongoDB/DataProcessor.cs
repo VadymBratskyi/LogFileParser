@@ -213,9 +213,17 @@ namespace LogParserWithMongoDb.MongoDB
         /// <summary>
         /// сохраннение KnownError обьектов
         /// </summary>
-        public static async Task SaveKnownErrorsIntoDb(List<KnownError> knownError)
+        public static async Task SaveKnownErrorsIntoDb(KnownError knownError)
         {
             await db.SaveKnownErrors(knownError);
+        }
+
+        /// <summary>
+        /// сохраннение Answer обьектов
+        /// </summary>
+        public static async Task SaveAnswerIntoDb(Answer answer)
+        {
+            await db.SaveAnswers(answer);
         }
 
         public static List<string> GetCollections()
@@ -231,6 +239,11 @@ namespace LogParserWithMongoDb.MongoDB
         public static Task<List<BsonDocument>> GetDataFind(FilterDefinition<BsonDocument> bsonQuery, string collection, int? scip, int limit)
         {
             return db.GetDataFind(bsonQuery, collection, scip, limit);
+        }
+
+        public static Task DeleteDocument(FilterDefinition<BsonDocument> bsonQuery, string collection)
+        {
+            return db.DeleteObject(bsonQuery, collection);
         }
     }
 }
