@@ -65,6 +65,17 @@ namespace LogParserWithMongoDb.MongoDB
             await collection.InsertManyAsync(errors);
         }
 
+        public async Task UpdateUnKnownErrors(List<UnKnownError> unKnownErrors)
+        {
+            var collection = GetUnKnownErrors();
+            foreach (var error in unKnownErrors)
+            {
+                var filter = Builders<UnKnownError>.Filter.Eq(o => o.Id, error.Id);
+                await collection.ReplaceOneAsync(filter, error);
+            }
+            
+        }
+
         public async Task SaveStatusErrors(List<StatusError> statusErrors)
         {
             var collection = GetStatusErrors();

@@ -42,6 +42,13 @@ namespace LogParserWithMongoDb.Process
             return dt.Select(d => BsonSerializer.Deserialize<UnKnownError>(d));
         }
 
+        public static IEnumerable<KnownError> GetKnownErrors()
+        {
+            var filter = Builders<BsonDocument>.Filter.Empty;
+            var dt = DataProcessor.GetDataFind(filter, "KnownError", 0, Int32.MaxValue).Result;
+            return dt.Select(d => BsonSerializer.Deserialize<KnownError>(d));
+        }
+
 
     }
 }

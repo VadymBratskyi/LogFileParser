@@ -30,8 +30,9 @@ namespace LogParserWithMongoDb.Process
         private const string RegDate = @"([0-3]?[0-9]/[0-3]?[0-9]/(?:[0-9]{2})?[0-9]{2})\s(1[0-2]|[0-9]):(00|0[1-9]{1}|[1-5]{1}[0-9]):(00|0[1-9]{1}|[1-5]{1}[0-9])\s(PM|AM)";
         protected static List<Log> LogsList = new List<Log>();
         protected static List<Log> TempLogsList = new List<Log>();
-        protected static List<Error> ErrorsList =new List<Error>();
+        protected static List<Error> ErrorsList = new List<Error>();
         protected static List<UnKnownError> unKnownErrorsList;
+        protected static List<KnownError> knownErrorsList;
         private readonly LogParser logParser;
 
 
@@ -42,6 +43,7 @@ namespace LogParserWithMongoDb.Process
             this.logParser = logParser;
             OpenFiles(listPath);
             unKnownErrorsList = InitDbLogHelper.GetUnKnownErrors().ToList();
+            knownErrorsList = InitDbLogHelper.GetKnownErrors().ToList();
             _synchronizationContext = SynchronizationContext.Current;
         }
         
@@ -73,13 +75,23 @@ namespace LogParserWithMongoDb.Process
                     var resultParsDoc = await ParsDocument(path, logFile);
                     await DataProcessor.SaveDocumentsIntoDb(LogsList);
 
-                    await DataProcessor.SaveErrorsIntoDb(ErrorsList);
+                    if (ErrorsList.Any())
+                    {
+                        await DataProcessor.SaveErrorsIntoDb(ErrorsList);
+                    }
 
                     var newUunKnownErrorsList = unKnownErrorsList.Where(o => o.Id == ObjectId.Empty).ToList();
-
+                    
                     if (newUunKnownErrorsList.Any())
                     {
                        await DataProcessor.SaveUnKnownErrorsIntoDb(newUunKnownErrorsList);
+                    }
+
+                    var isModified = unKnownErrorsList.Where(o => o.IsModified).ToList();
+
+                    if (isModified.Any())
+                    {
+                        await DataProcessor.UpdateUnKnownErrorsIntoDb(isModified);
                     }
 
                     logParser.textBox1.AppendText(resultParsDoc);

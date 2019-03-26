@@ -127,6 +127,7 @@ namespace LogParserWithMongoDb.MongoDB
             IEnumerable<string> arrError = sms.Trim().Split(' ');
 
             UnKnownError findUnKnownError = null;
+            KnownError findKnownError = null;
 
             string message = "";
 
@@ -141,16 +142,25 @@ namespace LogParserWithMongoDb.MongoDB
             }
 
             findUnKnownError = unKnownErrorsList.Find(o => o.ErrorText == message.TrimEnd());
+            findKnownError = knownErrorsList.Find(o => o.Message == message.TrimEnd());
 
-            if (findUnKnownError == null)
+            if (findUnKnownError == null && findKnownError == null)
             {
                 var unError = new UnKnownError()
                 {
                     ErrorText = message.TrimEnd(),
-                    Error = error.ResponsError
+                    Error = error.ResponsError,
+                    CountFounded = 1
                 };
                 
                 unKnownErrorsList.Add(unError);
+            } else if (findUnKnownError != null)
+            {
+                findUnKnownError.CountFounded++;
+                if (findUnKnownError.Id != ObjectId.Empty)
+                {
+                    findUnKnownError.IsModified = true;
+                }
             }
 
         }
@@ -208,6 +218,14 @@ namespace LogParserWithMongoDb.MongoDB
         public static async Task SaveUnKnownErrorsIntoDb(List<UnKnownError> unKnownError)
         {
             await db.SaveUnKnownErrors(unKnownError);
+        }
+
+        /// <summary>
+        /// сохраннение UnKnownError обьектов
+        /// </summary>
+        public static async Task UpdateUnKnownErrorsIntoDb(List<UnKnownError> unKnownError)
+        {
+            await db.UpdateUnKnownErrors(unKnownError);
         }
 
         /// <summary>

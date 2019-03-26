@@ -599,10 +599,6 @@ namespace LogParserWithMongoDb
                 var filter2 = Builders<BsonDocument>.Filter.Eq("_id", selectedError.Id);
                 await DataProcessor.DeleteDocument(filter2, "UnKnownError");
 
-                var filter = Builders<BsonDocument>.Filter.Empty;
-                var data = DataProcessor.GetDataFind(filter, "Answers", 0, Int32.MaxValue).Result;
-                _listAnswers = data.Select(d => BsonSerializer.Deserialize<Answer>(d)).ToList();
-                comboBox2.DataSource = _listAnswers;
                 LoadData();
 
                 textBox3.Text = "";
@@ -648,20 +644,21 @@ namespace LogParserWithMongoDb
             }
             else if (e.TabPageIndex == 2)
             {
-                var filter = Builders<BsonDocument>.Filter.Empty;
-                var data = DataProcessor.GetDataFind(filter, "Answers", 0, Int32.MaxValue).Result;
-                _listAnswers = data.Select(d => BsonSerializer.Deserialize<Answer>(d)).ToList();
-                comboBox2.DataSource = _listAnswers;
-                comboBox2.DisplayMember = "Text";
-                comboBox2.ValueMember = "Id";
                 textBox3.Text = String.Empty;
+            }
+            else if (e.TabPageIndex == 3)
+            {
+                var source = new BindingSource();
+                var data = InitDbLogHelper.GetKnownErrors();
+                source.DataSource = data;
+                dataGridView2.DataSource = source;
             }
         }
 
         private void button8_Click(object sender, EventArgs e)
         {
-            var selectedItem = comboBox2.SelectedItem as Answer;
-            textBox3.Text = selectedItem == null ? String.Empty : selectedItem.Text;
+            var ststusDialog = new StatusDialog();
+            ststusDialog.Show();
         }
     }
 

@@ -183,3 +183,4 @@ C:\GitHub\LogFileParser\ParserIntoTheMongoDB\LogParserEithMongoDb\obj\Debug\LogP
 C:\GitHub\LogFileParser\ParserIntoTheMongoDB\LogParserEithMongoDb\obj\Debug\LogParserWithMongoDb.ShowLog.resources
 C:\GitHub\LogFileParser\ParserIntoTheMongoDB\LogParserEithMongoDb\obj\Debug\LogParserWithMongoDb.exe
 C:\GitHub\LogFileParser\ParserIntoTheMongoDB\LogParserEithMongoDb\obj\Debug\LogParserWithMongoDb.pdb
+C:\GitHub\LogFileParser\ParserIntoTheMongoDB\LogParserEithMongoDb\obj\Debug\LogParserWithMongoDb.StatusDialog.resources
