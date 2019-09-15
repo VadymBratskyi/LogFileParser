@@ -28,7 +28,7 @@ namespace LogParserWithMongoDb
         private readonly SynchronizationContext _synchronizationContext;
         public int DefaultCountTake = 50;
         public int Skip = 0;
-
+        private StatusError SelectedStatusError;
         private UnKnownError SelectedUnknownError;
 
         public ShowLog()
@@ -36,6 +36,12 @@ namespace LogParserWithMongoDb
             _listCollections = DataProcessor.GetCollections();
             _dbName = DataProcessor.GetDatabase().Name;
             InitializeComponent();
+        }
+
+        public void SetStatusError(StatusError error) {
+            SelectedStatusError = error;
+            label9.Text = error.StatusCode.ToString();
+            label10.Text = error.StatusTitle;
         }
 
         private void LoadDataControls()
@@ -568,7 +574,7 @@ namespace LogParserWithMongoDb
         {
             var selectedError = SelectedUnknownError;
 
-            if (selectedError != null && textBox3.Text != "")
+            if (selectedError != null && textBox3.Text != "" && SelectedStatusError != null)
             {
                 var txtAnswer = textBox3.Text;
                 var answer = new Answer()
@@ -576,14 +582,16 @@ namespace LogParserWithMongoDb
                     Id = ObjectId.GenerateNewId(),
                     Text = txtAnswer
                 };
-
+                                
                 var bsonValue = BsonDocument.Parse(answer.ToJson());
+                var bsonStatus = BsonDocument.Parse(SelectedStatusError.ToJson());
 
                 var knowError = new KnownError()
                 {
                     Message = selectedError.ErrorText,
                     Error = selectedError.Error,
-                    Answer = bsonValue
+                    Answer = bsonValue,
+                    Status = bsonStatus
                 };
 
                 await DataProcessor.SaveKnownErrorsIntoDb(knowError);
@@ -601,7 +609,10 @@ namespace LogParserWithMongoDb
 
                 LoadData();
 
-                textBox3.Text = "";
+                textBox3.Clear();
+                label9.Text = "Code";
+                label10.Text = "Title";
+                SelectedStatusError = null;
             }
            
         }
@@ -652,13 +663,36 @@ namespace LogParserWithMongoDb
                 var data = InitDbLogHelper.GetKnownErrors();
                 source.DataSource = data;
                 dataGridView2.DataSource = source;
+                /*
+                public ObjectId Id { get; set; }
+        public int CountFounded { get; set; }
+        public string Message { get; set; }
+        public BsonDocument Error { get; set; }
+        public BsonDocument Status { get; set; }
+        public BsonDocument Answer { get; set; }    
+             */
             }
         }
 
         private void button8_Click(object sender, EventArgs e)
         {
-            var ststusDialog = new StatusDialog();
+            var ststusDialog = new StatusDialog(this);
             ststusDialog.Show();
+        }
+
+        private void DataGridView2_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                DataGridViewRow row = this.dataGridView2.Rows[e.RowIndex];
+
+                //var id = row.Cells["Id"].Value.ToString();
+                //var message = row.Cells["ErrorText"].Value.ToString();
+                //var error = row.Cells["Error"].Value.ToString();
+                //textBox2.Text = message;
+                //textBox3.Text = String.Empty;
+                //SelectedUnknownError = new UnKnownError() { Id = new ObjectId(id), ErrorText = message, Error = BsonDocument.Parse(error) };
+            }
         }
     }
 

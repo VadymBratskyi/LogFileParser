@@ -13,7 +13,7 @@ namespace LogParserWithMongoDb.Model
         public int CountFounded { get; set; }
         public string Message { get; set; }
         public BsonDocument Error { get; set; }
-        public ObjectId StatusId { get; set; }
+        public BsonDocument Status { get; set; }
         public BsonDocument Answer { get; set; }
     }
 }

@@ -100,7 +100,11 @@ namespace LogParserWithMongoDb.MongoDB
             await collection.InsertOneAsync(answers);
         }
 
-        
+        public async Task SaveStatusError(StatusError statusError)
+        {
+            var collection = GetStatusErrors();
+            await collection.InsertOneAsync(statusError);
+        }
 
         private MongoClient GetClient()
         {

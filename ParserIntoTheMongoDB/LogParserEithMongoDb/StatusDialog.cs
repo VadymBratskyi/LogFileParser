@@ -19,47 +19,74 @@ namespace LogParserWithMongoDb
 {
     public partial class StatusDialog : Form
     {
-        public StatusDialog()
+        private ShowLog showLog;
+
+        private StatusError selectedStatusError;
+
+        public StatusDialog(ShowLog log)
         {
             InitializeComponent();
-            //treeView1.CheckBoxes = true;
-            //treeView1.DrawMode = TreeViewDrawMode.OwnerDrawAll;
+            showLog = log;
         }
 
-        private async void StatusDialog_Load(object sender, EventArgs e)
+        private void StatusDialog_Load(object sender, EventArgs e)
+        {            
+            LoadDataToList();
+        }
+
+        public async void LoadDataToList()
         {
             var filter1 = Builders<BsonDocument>.Filter.Empty;
             var statusError = await DataProcessor.GetDataFind(filter1, "StatusError", 0, Int32.MaxValue);
-            BuildTreeForQueryAsynk(statusError, treeView1, true);
+            var docs = statusError.Select(d => BsonSerializer.Deserialize<StatusError>(d)).ToList();
+
+            listBox1.DataSource = docs;
+            listBox1.ValueMember = "StatusTitle";
+        }        
+
+        private void Button1_Click(object sender, EventArgs e)
+        {
+            showLog.SetStatusError(selectedStatusError);
+            this.Close();
         }
 
-        public async void BuildTreeForQueryAsynk(List<BsonDocument> documents, TreeView tree, bool withValue)
+        private void Button2_Click(object sender, EventArgs e)
         {
-            var docs = documents.Select(d => BsonSerializer.Deserialize<StatusError>(d)).ToList();
+            this.Close();
+        }
 
-            var firstObj = docs.FirstOrDefault();
+        private async void Button3_Click(object sender, EventArgs e)
+        {
+            var newStatusTitle = textBox1.Text;
+            var newStatusCode = textBox2.Text;
+            var newStatusParentId = textBox3.Text;
 
-            if (firstObj != null)
+            var newStatusError = new StatusError()
             {
+                StatusCode = Convert.ToInt32(newStatusCode),
+                StatusTitle = newStatusTitle,
+            };
 
-                var jObject = JObject.Parse(firstObj.ToJson().Replace("ObjectId(", "").Replace("ISODate(", "").Replace(")", ""));
-
-                BuildTree treee = new BuildTree(jObject);
-                tree.Nodes.Clear();
-
-                foreach (var doc in docs)
-                {
-                    TreeNode parent = await Task.Run(() =>
-                    {
-                        JObject obj = JObject.Parse(doc.ToJson().Replace("ObjectId(", "").Replace("ISODate(", "").Replace(")", ""));
-                        var prnt = treee.Json2Tree(obj, withValue);
-                        prnt.Text = doc.StatusTitle;
-                        return prnt;
-                    });
-                    tree.Nodes.Add(parent);
-
-                }
+            if (!string.IsNullOrEmpty(newStatusParentId)) {
+                newStatusError.SubStatusId = ObjectId.Parse(newStatusParentId);
             }
+
+            await DataProcessor.SaveStatusErrorIntoDb(newStatusError);
+            LoadDataToList();
+            textBox1.Clear();
+            textBox2.Clear();
+            textBox3.Clear();
+        }
+
+        private void ListBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (listBox1.SelectedItem != null) {
+                var selectedItem = (StatusError)listBox1.SelectedItem;
+                textBox3.Text = selectedItem.Id.ToString();
+                label2.Text = selectedItem.StatusTitle;
+                label6.Text = selectedItem.StatusCode.ToString();
+                selectedStatusError = selectedItem;
+            }            
         }
     }
 }

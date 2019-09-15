@@ -243,6 +243,14 @@ namespace LogParserWithMongoDb.MongoDB
         {
             await db.SaveAnswers(answer);
         }
+        
+        /// <summary>
+        /// сохраннение StatusError обьекта
+        /// </summary>
+        public static async Task SaveStatusErrorIntoDb(StatusError statusError)
+        {
+            await db.SaveStatusError(statusError);
+        }
 
         public static List<string> GetCollections()
         {
