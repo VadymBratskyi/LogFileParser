@@ -61,21 +61,27 @@ namespace LogParserWithMongoDb
             var newStatusCode = textBox2.Text;
             var newStatusParentId = textBox3.Text;
 
-            var newStatusError = new StatusError()
-            {
-                StatusCode = Convert.ToInt32(newStatusCode),
-                StatusTitle = newStatusTitle,
-            };
+            if (!string.IsNullOrEmpty(newStatusTitle) && !string.IsNullOrEmpty(newStatusCode)) {
 
-            if (!string.IsNullOrEmpty(newStatusParentId)) {
-                newStatusError.SubStatusId = ObjectId.Parse(newStatusParentId);
+                var newStatusError = new StatusError()
+                {
+                    StatusCode = Convert.ToInt32(newStatusCode),
+                    StatusTitle = newStatusTitle,
+                };
+
+                if (!string.IsNullOrEmpty(newStatusParentId))
+                {
+                    newStatusError.SubStatusId = ObjectId.Parse(newStatusParentId);
+                }
+
+                await DataProcessor.SaveStatusErrorIntoDb(newStatusError);
+                LoadDataToList();
+                textBox1.Clear();
+                textBox2.Clear();
+                textBox3.Clear();
             }
 
-            await DataProcessor.SaveStatusErrorIntoDb(newStatusError);
-            LoadDataToList();
-            textBox1.Clear();
-            textBox2.Clear();
-            textBox3.Clear();
+         
         }
 
         private void ListBox1_SelectedIndexChanged(object sender, EventArgs e)

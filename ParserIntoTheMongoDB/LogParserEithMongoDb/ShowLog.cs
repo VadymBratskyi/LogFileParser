@@ -641,7 +641,6 @@ namespace LogParserWithMongoDb
                 var message = row.Cells["ErrorText"].Value.ToString();
                 var error = row.Cells["Error"].Value.ToString();
                 textBox2.Text = message;
-                textBox3.Text = String.Empty;
                 SelectedUnknownError = new UnKnownError(){Id = new ObjectId(id), ErrorText = message, Error = BsonDocument.Parse(error) };
             }
         }
@@ -661,16 +660,27 @@ namespace LogParserWithMongoDb
             {
                 var source = new BindingSource();
                 var data = InitDbLogHelper.GetKnownErrors();
-                source.DataSource = data;
+                var listKnowErr = new List<KnownErrorView>();
+                foreach (var knowErr in data) {
+                    var st = BsonSerializer.Deserialize<StatusError>(knowErr.Status.ToJson());
+                    var an = BsonSerializer.Deserialize<Answer>(knowErr.Answer.ToJson());
+
+                    listKnowErr.Add(new KnownErrorView
+                    {
+                        Message = knowErr.Message,
+                        Count = knowErr.CountFounded,
+                        StatusCode = st.StatusCode,
+                        StatusTitle = st.StatusTitle,
+                        Answer = an.Text,
+                    });
+                }
+
+                source.DataSource = listKnowErr;
                 dataGridView2.DataSource = source;
-                /*
-                public ObjectId Id { get; set; }
-        public int CountFounded { get; set; }
-        public string Message { get; set; }
-        public BsonDocument Error { get; set; }
-        public BsonDocument Status { get; set; }
-        public BsonDocument Answer { get; set; }    
-             */
+                textBox7.Clear();
+                textBox8.Clear();
+                textBox9.Clear();
+                textBox10.Clear();
             }
         }
 
@@ -686,12 +696,14 @@ namespace LogParserWithMongoDb
             {
                 DataGridViewRow row = this.dataGridView2.Rows[e.RowIndex];
 
-                //var id = row.Cells["Id"].Value.ToString();
-                //var message = row.Cells["ErrorText"].Value.ToString();
-                //var error = row.Cells["Error"].Value.ToString();
-                //textBox2.Text = message;
-                //textBox3.Text = String.Empty;
-                //SelectedUnknownError = new UnKnownError() { Id = new ObjectId(id), ErrorText = message, Error = BsonDocument.Parse(error) };
+                var message = row.Cells["Message"].Value.ToString();
+                var statusCode = row.Cells["StatusCode"].Value.ToString();
+                var statusTitle = row.Cells["StatusTitle"].Value.ToString();
+                var answer = row.Cells["Answer"].Value.ToString();
+                textBox7.Text = message;
+                textBox8.Text = statusCode;
+                textBox9.Text = statusTitle;
+                textBox10.Text = answer;
             }
         }
     }

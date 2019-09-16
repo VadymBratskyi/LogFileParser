@@ -31,8 +31,9 @@ namespace LogParserWithMongoDb.Process
         protected static List<Log> LogsList = new List<Log>();
         protected static List<Log> TempLogsList = new List<Log>();
         protected static List<Error> ErrorsList = new List<Error>();
+        protected static List<KnownErrorView> offerAnswers;
         protected static List<UnKnownError> unKnownErrorsList;
-        protected static List<KnownError> knownErrorsList;
+        protected static List<KnownError> knownErrorsList;   
         private readonly LogParser logParser;
 
 
@@ -44,7 +45,7 @@ namespace LogParserWithMongoDb.Process
             OpenFiles(listPath);
             unKnownErrorsList = InitDbLogHelper.GetUnKnownErrors().ToList();
             knownErrorsList = InitDbLogHelper.GetKnownErrors().ToList();
-            _synchronizationContext = SynchronizationContext.Current;
+            _synchronizationContext = SynchronizationContext.Current;         
         }
         
         private async void OpenFiles(List<string> listpath)
@@ -52,6 +53,7 @@ namespace LogParserWithMongoDb.Process
             if (MessageBox.Show("There are " + listpath.Count() + " elements. \r\nDo you want to parse these files?",
                     "Information!", MessageBoxButtons.OKCancel, MessageBoxIcon.Information) == DialogResult.OK)
             {
+                offerAnswers = new List<KnownErrorView>();
                 logParser.progressBarToFinish.Value = 0;
                 logParser.pictureBox1.Visible = true;
                 logParser.labelTime.Visible = false;
@@ -80,11 +82,11 @@ namespace LogParserWithMongoDb.Process
                         await DataProcessor.SaveErrorsIntoDb(ErrorsList);
                     }
 
-                    var newUunKnownErrorsList = unKnownErrorsList.Where(o => o.Id == ObjectId.Empty).ToList();
+                    var newUnKnownErrorsList = unKnownErrorsList.Where(o => o.Id == ObjectId.Empty).ToList();
                     
-                    if (newUunKnownErrorsList.Any())
+                    if (newUnKnownErrorsList.Any())
                     {
-                       await DataProcessor.SaveUnKnownErrorsIntoDb(newUunKnownErrorsList);
+                       await DataProcessor.SaveUnKnownErrorsIntoDb(newUnKnownErrorsList);
                     }
 
                     var isModified = unKnownErrorsList.Where(o => o.IsModified).ToList();
@@ -107,8 +109,17 @@ namespace LogParserWithMongoDb.Process
                         UpdateTimer(GetTime(dt, dt2, file, countFiles));
                     }
                     UpdateProgBarToFinish((int)((file * 100.0) / listpath.Count));
-                }               
+                }
 
+                if (offerAnswers.Any()) {
+                    if (MessageBox.Show("We found " + ErrorsList.Count + " errors.\r\nWe have " + offerAnswers.Count + " offer for decision. \r\nDo you want to see our decisions for this errors and informations about problems?",
+                    "Information!", MessageBoxButtons.OKCancel, MessageBoxIcon.Information) == DialogResult.OK)
+                    {
+                        OfferErrorAnswer offer = new OfferErrorAnswer(offerAnswers);
+                        offer.ShowDialog();
+                    }
+                }
+                
                 logParser.labelCountFiles.Text = countFiles.ToString();
                 logParser.labelFileName.Text = "";
                 logParser.progressBarFile.Value = 0;

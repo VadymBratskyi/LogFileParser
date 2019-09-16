@@ -210,3 +210,4 @@ D:\LogParser\ParserIntoTheMongoDB\LogParserEithMongoDb\obj\Debug\LogParserWithMo
 D:\LogParser\ParserIntoTheMongoDB\LogParserEithMongoDb\obj\Debug\LogParserWithMongoDb.csproj.CopyComplete
 D:\LogParser\ParserIntoTheMongoDB\LogParserEithMongoDb\obj\Debug\LogParserWithMongoDb.exe
 D:\LogParser\ParserIntoTheMongoDB\LogParserEithMongoDb\obj\Debug\LogParserWithMongoDb.pdb
+D:\LogParser\ParserIntoTheMongoDB\LogParserEithMongoDb\obj\Debug\LogParserWithMongoDb.OfferErrorAnswer.resources

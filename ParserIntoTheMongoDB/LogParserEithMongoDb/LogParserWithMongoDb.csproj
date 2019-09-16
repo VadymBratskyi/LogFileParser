@@ -83,12 +83,19 @@
     <Compile Include="Model\Answer.cs" />
     <Compile Include="Model\Error.cs" />
     <Compile Include="Model\KnownError.cs" />
+    <Compile Include="Model\KnownErrorView.cs" />
     <Compile Include="Model\Log.cs" />
     <Compile Include="Model\LogFile.cs" />
     <Compile Include="Model\StatusError.cs" />
     <Compile Include="Model\UnKnownError.cs" />
     <Compile Include="MongoDB\DataProcessor.cs" />
     <Compile Include="MongoDB\DbContext.cs" />
+    <Compile Include="OfferErrorAnswer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OfferErrorAnswer.Designer.cs">
+      <DependentUpon>OfferErrorAnswer.cs</DependentUpon>
+    </Compile>
     <Compile Include="Process\BuildTree.cs" />
     <Compile Include="Process\ErrorAnaliz.cs" />
     <Compile Include="Process\InitDbLogHelper.cs" />
@@ -115,6 +122,9 @@
     </Compile>
     <EmbeddedResource Include="LogParser.resx">
       <DependentUpon>LogParser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OfferErrorAnswer.resx">
+      <DependentUpon>OfferErrorAnswer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

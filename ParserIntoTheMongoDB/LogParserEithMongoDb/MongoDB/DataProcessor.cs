@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using LogParserWithMongoDb.Model;
 using LogParserWithMongoDb.Process;
 using MongoDB.Bson;
+using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
 using Newtonsoft.Json.Linq;
 
@@ -152,14 +153,37 @@ namespace LogParserWithMongoDb.MongoDB
                     Error = error.ResponsError,
                     CountFounded = 1
                 };
-                
+
                 unKnownErrorsList.Add(unError);
-            } else if (findUnKnownError != null)
+            }
+            else if (findUnKnownError != null)
             {
                 findUnKnownError.CountFounded++;
                 if (findUnKnownError.Id != ObjectId.Empty)
                 {
                     findUnKnownError.IsModified = true;
+                }
+            }
+            else if (findKnownError != null) {
+                var existOffer = offerAnswers.Find(o => o.Message == findKnownError.Message);
+                if (existOffer == null)
+                {
+                    var st = BsonSerializer.Deserialize<StatusError>(findKnownError.Status.ToJson());
+                    var an = BsonSerializer.Deserialize<Answer>(findKnownError.Answer.ToJson());
+
+                    var knowView = new KnownErrorView()
+                    {
+                        Message = findKnownError.Message,
+                        Count = 1,
+                        StatusCode = st.StatusCode,
+                        StatusTitle = st.StatusTitle,
+                        Answer = an.Text
+                    };
+
+                    offerAnswers.Add(knowView);
+                }
+                else {
+                    existOffer.Count++;
                 }
             }
 
