@@ -60,6 +60,7 @@ namespace LogParserWithMongoDb
             var newStatusTitle = textBox1.Text;
             var newStatusCode = textBox2.Text;
             var newStatusParentId = textBox3.Text;
+            var newStatusKeysWords = textBox4.Text;
 
             if (!string.IsNullOrEmpty(newStatusTitle) && !string.IsNullOrEmpty(newStatusCode)) {
 
@@ -74,11 +75,20 @@ namespace LogParserWithMongoDb
                     newStatusError.SubStatusId = ObjectId.Parse(newStatusParentId);
                 }
 
+                if (!string.IsNullOrEmpty(newStatusKeysWords))
+                {
+                    var arr = newStatusKeysWords.Split(',');
+                    newStatusError.KeyWords = new BsonArray(arr);
+                }
+
                 await DataProcessor.SaveStatusErrorIntoDb(newStatusError);
+
                 LoadDataToList();
+
                 textBox1.Clear();
                 textBox2.Clear();
                 textBox3.Clear();
+                textBox4.Clear();
             }
 
          
@@ -89,6 +99,7 @@ namespace LogParserWithMongoDb
             if (listBox1.SelectedItem != null) {
                 var selectedItem = (StatusError)listBox1.SelectedItem;
                 textBox3.Text = selectedItem.Id.ToString();
+                textBox4.Text = selectedItem.KeyWords != null ? string.Join(",", selectedItem.KeyWords) : string.Empty;
                 label2.Text = selectedItem.StatusTitle;
                 label6.Text = selectedItem.StatusCode.ToString();
                 selectedStatusError = selectedItem;

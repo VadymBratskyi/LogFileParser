@@ -12,6 +12,7 @@ namespace LogParserWithMongoDb.Model
         public ObjectId Id { get; set; }
         public int StatusCode { get; set; }
         public string StatusTitle { get; set; }
+        public BsonArray KeyWords { get; set; }
         public ObjectId SubStatusId { get; set; }
     }
 }

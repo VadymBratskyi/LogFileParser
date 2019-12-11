@@ -29,7 +29,7 @@ namespace LogParserWithMongoDb.Process
         {
             return new List<StatusError>()
             {
-                new StatusError(){ StatusCode = 400, StatusTitle = "Bad Request"},
+                new StatusError(){ StatusCode = 400, StatusTitle = "Bad Request", KeyWords = new BsonArray(new []{ "request" })},
                 new StatusError(){ StatusCode = 500, StatusTitle = "Server Error"}
             };
         }
