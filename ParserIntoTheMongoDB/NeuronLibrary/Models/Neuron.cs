@@ -27,7 +27,13 @@ namespace NeuronLibrary.Models
 			{
 				sum = +inputs[i] * Weights[i];
 			}
-			Output = Sigmoid(sum);
+			if (Type != NeuronType.Input)
+			{
+				Output = Sigmoid(sum);
+			}
+			else {
+				Output = sum;
+			}
 			return sum;
 		}
 		private double Sigmoid(double x) {

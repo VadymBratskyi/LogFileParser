@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NeuronLibrary;
+using System;
 using System.Collections.Generic;
 
 namespace NeuraNetworks
@@ -7,13 +8,15 @@ namespace NeuraNetworks
 	{
 		static void Main(string[] args)
 		{
-			Console.WriteLine("Hello World!");
+			Console.WriteLine("Hello Neuro Network!");
 
-			int[] arrInt = new int[5] {0,1,2,3,4};
+			var topology = new Topology(4, 1, 2);
+			var neuronNetwork = new NeuronNetworks(topology);
+			neuronNetwork.Layers[1].Neurons[0].SetWeights(0.5, -0.1, 0.3, -0.1);
+			neuronNetwork.Layers[1].Neurons[1].SetWeights(0.1, -0.3, 0.7, -0.3);
+			neuronNetwork.Layers[2].Neurons[0].SetWeights(1.2, 0.8);
 
-			var rr = new List<int>(arrInt);
-
-			rr.ForEach(r => Console.WriteLine(r));
+			var result = neuronNetwork.FeedForward(new List<double> { 1, 0, 0, 0 });
 
 			Console.ReadKey();
 		}

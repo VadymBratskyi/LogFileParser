@@ -1,11 +1,30 @@
 {
   "version": 3,
   "targets": {
-    ".NETCoreApp,Version=v3.1": {}
+    ".NETCoreApp,Version=v3.1": {
+      "NeuronLibrary/1.0.0": {
+        "type": "project",
+        "framework": ".NETStandard,Version=v2.0",
+        "compile": {
+          "bin/placeholder/NeuronLibrary.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/NeuronLibrary.dll": {}
+        }
+      }
+    }
   },
-  "libraries": {},
+  "libraries": {
+    "NeuronLibrary/1.0.0": {
+      "type": "project",
+      "path": "../NeuronLibrary/NeuronLibrary.csproj",
+      "msbuildProject": "../NeuronLibrary/NeuronLibrary.csproj"
+    }
+  },
   "projectFileDependencyGroups": {
-    ".NETCoreApp,Version=v3.1": []
+    ".NETCoreApp,Version=v3.1": [
+      "NeuronLibrary >= 1.0.0"
+    ]
   },
   "packageFolders": {
     "C:\\Users\\Vadim\\.nuget\\packages\\": {},
@@ -39,7 +58,11 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\GithubProject\\LogFileParser\\ParserIntoTheMongoDB\\NeuronLibrary\\NeuronLibrary.csproj": {
+              "projectPath": "C:\\GithubProject\\LogFileParser\\ParserIntoTheMongoDB\\NeuronLibrary\\NeuronLibrary.csproj"
+            }
+          }
         }
       },
       "warningProperties": {

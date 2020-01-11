@@ -234,7 +234,6 @@ C:\GithubProject\LogFileParser\ParserIntoTheMongoDB\LogParserEithMongoDb\obj\Deb
 C:\GithubProject\LogFileParser\ParserIntoTheMongoDB\LogParserEithMongoDb\obj\Debug\LogParserWithMongoDb.ShowLog.resources
 C:\GithubProject\LogFileParser\ParserIntoTheMongoDB\LogParserEithMongoDb\obj\Debug\LogParserWithMongoDb.StatusDialog.resources
 C:\GithubProject\LogFileParser\ParserIntoTheMongoDB\LogParserEithMongoDb\obj\Debug\LogParserWithMongoDb.csproj.GenerateResource.cache
-C:\GithubProject\LogFileParser\ParserIntoTheMongoDB\LogParserEithMongoDb\obj\Debug\LogParserWithMongoDb.csproj.CoreCompileInputs.cache
 C:\GithubProject\LogFileParser\ParserIntoTheMongoDB\LogParserEithMongoDb\obj\Debug\LogParserWithMongoDb.csproj.CopyComplete
 C:\GithubProject\LogFileParser\ParserIntoTheMongoDB\LogParserEithMongoDb\obj\Debug\LogParserWithMongoDb.exe
 C:\GithubProject\LogFileParser\ParserIntoTheMongoDB\LogParserEithMongoDb\obj\Debug\LogParserWithMongoDb.pdb

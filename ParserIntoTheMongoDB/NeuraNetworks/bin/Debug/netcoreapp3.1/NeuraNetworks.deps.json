@@ -7,14 +7,27 @@
   "targets": {
     ".NETCoreApp,Version=v3.1": {
       "NeuraNetworks/1.0.0": {
+        "dependencies": {
+          "NeuronLibrary": "1.0.0"
+        },
         "runtime": {
           "NeuraNetworks.dll": {}
+        }
+      },
+      "NeuronLibrary/1.0.0": {
+        "runtime": {
+          "NeuronLibrary.dll": {}
         }
       }
     }
   },
   "libraries": {
     "NeuraNetworks/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "NeuronLibrary/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
