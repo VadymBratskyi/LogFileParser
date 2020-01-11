@@ -1,0 +1,11 @@
+C:\GithubProject\LogFileParser\ParserIntoTheMongoDB\NeuraNetworks\bin\Debug\netcoreapp3.1\NeuraNetworks.exe
+C:\GithubProject\LogFileParser\ParserIntoTheMongoDB\NeuraNetworks\bin\Debug\netcoreapp3.1\NeuraNetworks.deps.json
+C:\GithubProject\LogFileParser\ParserIntoTheMongoDB\NeuraNetworks\bin\Debug\netcoreapp3.1\NeuraNetworks.runtimeconfig.json
+C:\GithubProject\LogFileParser\ParserIntoTheMongoDB\NeuraNetworks\bin\Debug\netcoreapp3.1\NeuraNetworks.runtimeconfig.dev.json
+C:\GithubProject\LogFileParser\ParserIntoTheMongoDB\NeuraNetworks\bin\Debug\netcoreapp3.1\NeuraNetworks.dll
+C:\GithubProject\LogFileParser\ParserIntoTheMongoDB\NeuraNetworks\bin\Debug\netcoreapp3.1\NeuraNetworks.pdb
+C:\GithubProject\LogFileParser\ParserIntoTheMongoDB\NeuraNetworks\obj\Debug\netcoreapp3.1\NeuraNetworks.csprojAssemblyReference.cache
+C:\GithubProject\LogFileParser\ParserIntoTheMongoDB\NeuraNetworks\obj\Debug\netcoreapp3.1\NeuraNetworks.AssemblyInfoInputs.cache
+C:\GithubProject\LogFileParser\ParserIntoTheMongoDB\NeuraNetworks\obj\Debug\netcoreapp3.1\NeuraNetworks.AssemblyInfo.cs
+C:\GithubProject\LogFileParser\ParserIntoTheMongoDB\NeuraNetworks\obj\Debug\netcoreapp3.1\NeuraNetworks.dll
+C:\GithubProject\LogFileParser\ParserIntoTheMongoDB\NeuraNetworks\obj\Debug\netcoreapp3.1\NeuraNetworks.pdb
