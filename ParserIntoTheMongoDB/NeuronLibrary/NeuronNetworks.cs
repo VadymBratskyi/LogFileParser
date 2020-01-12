@@ -10,6 +10,10 @@ namespace NeuronLibrary
 	{
 		public Topology Topology { get; }
 		public List<Layer> Layers { get; }
+		/**
+		 <summary>Constructor of NeuronNetworks</summary>
+		 <param name="topology">DEscription of neuron networks</param>
+		 */
 		public NeuronNetworks(Topology topology)
 		{
 			Topology = topology;
@@ -21,16 +25,17 @@ namespace NeuronLibrary
 		}
 		public Neuron FeedForward(List<double> inputSignals)
 		{
-			SendSignalsToinputNeurons(inputSignals);
+			if (inputSignals == null || inputSignals.Count != Topology.InputCount) {
+				throw new ArgumentException();
+			}
+			SendSignalsToInputNeurons(inputSignals);
 			FeedForwardAllLayersAfterInput();
 			if (Topology.OutputCount == 1)
 			{
-				return Layers.Last().Neurons[0];
+				return Layers.Last().Neurons.First();
 			}
-
 			return Layers.Last().Neurons.OrderByDescending(n => n.Output).First();
 		}
-
 		private void FeedForwardAllLayersAfterInput()
 		{
 			for (int i = 1; i < Layers.Count; i++)
@@ -43,13 +48,12 @@ namespace NeuronLibrary
 				}
 			}
 		}
-
-		private void SendSignalsToinputNeurons(List<double> inputSignals)
+		private void SendSignalsToInputNeurons(List<double> inputSignals)
 		{
 			for (int i = 0; i < inputSignals.Count; i++)
 			{
 				var signal = new List<double>() { inputSignals[i] };
-				var neuron = Layers.First().Neurons[i];
+				var neuron = Layers[0].Neurons[i];
 				neuron.FeedForward(signal);
 			}
 		}
