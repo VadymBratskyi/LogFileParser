@@ -7,6 +7,7 @@ namespace NeuronLibrary.Models
 	public class Neuron
 	{
 		public List<double> Weights { get; }
+		public List<double> Inputs { get; }
 		public NeuronType Type { get; }
 		/**
 		<summary>
@@ -14,7 +15,7 @@ namespace NeuronLibrary.Models
 		</summary>
 		**/
 		public double Output { get; private set; }
-
+		public double Delta { get; private set; }
 		/**
 		 *<param name="inputCount">count input neurons</param>
 		 *<param name="type">type of neuron</param>
@@ -22,12 +23,26 @@ namespace NeuronLibrary.Models
 		 * neuron constructor with default weight
 		 * </summary>
 		 */
-		public Neuron(int inputCount, NeuronType type = NeuronType.Normal) {
+		public Neuron(int inputCount, NeuronType type = NeuronType.Normal)
+		{
 			Type = type;
 			Weights = new List<double>();
+			Inputs = new List<double>();
+			InitWeightsRandomValues(inputCount);
+		}
+		private void InitWeightsRandomValues(int inputCount)
+		{
+			var rand = new Random();
 			for (int i = 0; i < inputCount; i++)
 			{
-				Weights.Add(1);
+				if (Type == NeuronType.Input)
+				{
+					Weights.Add(1);
+				}
+				else {
+					Weights.Add(rand.NextDouble());
+				}
+				Inputs.Add(0);
 			}
 		}
 		/**
@@ -39,6 +54,10 @@ namespace NeuronLibrary.Models
 		public double FeedForward(List<double> inputs) {
 			if (inputs == null)	{
 				throw new ArgumentNullException();
+			}
+			for (int i = 0; i < inputs.Count; i++)
+			{
+				Inputs[i] = inputs[i];
 			}
 			var sum = 0.0;
 			for (int i = 0; i < inputs.Count; i++)
@@ -64,11 +83,28 @@ namespace NeuronLibrary.Models
 		private double Sigmoid(double x) {
 			return 1.0 / (1.0 + Math.Pow(Math.E, -x));
 		}
-		public void SetWeights(params double[] weights) {
-			for (int i = 0; i < weights.Length; i++)
+		/**
+		 <summary>
+			Proizvodnaya function
+		 </summary>
+		 */
+		private double SigmoidDx(double x) {
+			return Sigmoid(x) / (1 - Sigmoid(x));
+		}
+		/**
+		 <summary>
+			Calculation new weights
+		 </summary>
+		 */
+		public void Learning(double error, double learningRate) {
+			if (Type == NeuronType.Input) {
+				return;
+			}
+			Delta = error * SigmoidDx(Output);
+			for (int i = 0; i < Weights.Count; i++)
 			{
-			//delete after study networks
-				Weights[i] = weights[i];
+				var newWeight = Weights[i] - Inputs[i] * Delta * learningRate;
+				Weights[i] = newWeight;
 			}
 		}
 		public override string ToString()

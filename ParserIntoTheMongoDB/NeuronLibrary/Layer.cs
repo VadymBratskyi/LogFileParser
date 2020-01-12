@@ -7,8 +7,8 @@ namespace NeuronLibrary
 	public class Layer
 	{
 		public List<Neuron> Neurons { get; }
-		public int Count => Neurons?.Count ?? 0;
-
+		public int NeuronsCount => Neurons?.Count ?? 0;
+		public NeuronType Type;
 		/**
 		 * <summary>
 		 * Constructo layer with naurons
@@ -21,6 +21,7 @@ namespace NeuronLibrary
 				throw new ArgumentNullException();
 			}
 			Neurons = neurons;
+			Type = type;
 		}
 		/**
 		 * <summary>
@@ -35,5 +36,11 @@ namespace NeuronLibrary
 			}
 			return result;
 		}
+
+		public override string ToString()
+		{
+			return Type.ToString();
+		}
+
 	}
 }
