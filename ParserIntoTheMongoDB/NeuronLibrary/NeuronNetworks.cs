@@ -25,7 +25,7 @@ namespace NeuronLibrary
 		}
 		public Neuron FeedForward(params double[] inputSignals)
 		{
-			if (inputSignals == null || inputSignals.Length != Topology.InputCount) {
+			if (inputSignals == null) {
 				throw new ArgumentException();
 			}
 			SendSignalsToInputNeurons(inputSignals);
@@ -44,17 +44,18 @@ namespace NeuronLibrary
 		<param name="dataset">Data for learning</param>
 		<param name="epoch">Count cikle for sdudy. Count times to repead study</param>
 		 */
-		//public double Learning(List<Tuple<double, double[]>> dataset, int epoch) {
-		//	var error = 0.0;
-		//	for (int i = 0; i < epoch; i++)
-		//	{ 
-		//		foreach (var data in dataset)
-		//		{
-		//			error += BackPropagation(data.Item1, data.Item2);
-		//		}
-		//	}
-		//	return error / epoch;
-		//}
+		public double Learning(List<Tuple<double, double[]>> dataset, int epoch)
+		{
+			var error = 0.0;
+			for (int i = 0; i < epoch; i++)
+			{
+				foreach (var data in dataset)
+				{
+					error += BackPropagation(data.Item1, data.Item2);
+				}
+			}
+			return error / epoch;
+		}
 
 		public double Learning(double[] expected, double[,] inputs, int epoch)
 		{
@@ -64,7 +65,7 @@ namespace NeuronLibrary
 				for (int j = 0; j < expected.Length; j++)
 				{
 					var output = expected[j];
-					var input = GetRow(inputs, j);
+					var input = GetRow(signals, j);
 					error += BackPropagation(output, input);
 				}
 			}			
