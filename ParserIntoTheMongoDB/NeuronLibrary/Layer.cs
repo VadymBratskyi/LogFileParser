@@ -1,6 +1,7 @@
 ﻿using NeuronLibrary.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace NeuronLibrary
 {
@@ -17,8 +18,8 @@ namespace NeuronLibrary
 		 * <param name="type">Type neurons. Mast be one type all neurons in layers</param>
 		 */
 		public Layer(List<Neuron> neurons, NeuronType type = NeuronType.Normal) {
-			if (neurons == null) {
-				throw new ArgumentNullException();
+			if (neurons == null && neurons.All(n => n.Type == type)) {
+				throw new ArgumentException();
 			}
 			Neurons = neurons;
 			Type = type;

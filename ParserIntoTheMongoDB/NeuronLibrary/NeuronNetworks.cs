@@ -12,7 +12,7 @@ namespace NeuronLibrary
 		public List<Layer> Layers { get; }
 		/**
 		 <summary>Constructor of NeuronNetworks</summary>
-		 <param name="topology">DEscription of neuron networks</param>
+		 <param name="topology">Description of neuron networks</param>
 		 */
 		public NeuronNetworks(Topology topology)
 		{
@@ -36,10 +36,18 @@ namespace NeuronLibrary
 			}
 			return Layers.Last().Neurons.OrderByDescending(n => n.Output).First();
 		}
+		/**
+		<summary>
+		return midle our error;
+		Study our neuro networks
+		</summary>
+		<param name="dataset">Data for learning</param>
+		<param name="epoch">Count cikle for sdudy. Count times to repead study</param>
+		 */
 		public double Learning(List<Tuple<double, double[]>> dataset, int epoch) {
 			var error = 0.0;
 			for (int i = 0; i < epoch; i++)
-			{
+			{ 
 				foreach (var data in dataset)
 				{
 					error += BackPropagation(data.Item1, data.Item2);
@@ -47,6 +55,9 @@ namespace NeuronLibrary
 			}
 			return error / epoch;
 		}
+		/**
+		 <summary>return error</summary>
+		 */
 		private double BackPropagation(double expected, params double[] inputs) {
 			var actual = FeedForward(inputs).Output;
 			var difference = actual - expected;
@@ -60,11 +71,11 @@ namespace NeuronLibrary
 				var prewLayer = Layers[i + 1];
 				for (int j = 0; j < layer.NeuronsCount; j++)
 				{
-					var neuron = layer.Neurons[i];
+					var neuron = layer.Neurons[j];
 					for (int k = 0; k < prewLayer.NeuronsCount; k++)
 					{
 						var prewNeuron = prewLayer.Neurons[k];
-						var error = prewNeuron.Weights[i] * prewNeuron.Delta;
+						var error = prewNeuron.Weights[j] * prewNeuron.Delta;
 						neuron.Learning(error, Topology.LearningRate);
 					}
 				}

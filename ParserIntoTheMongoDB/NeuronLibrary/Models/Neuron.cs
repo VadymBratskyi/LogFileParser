@@ -7,6 +7,11 @@ namespace NeuronLibrary.Models
 	public class Neuron
 	{
 		public List<double> Weights { get; }
+		/**
+		<summary>
+			Input signals
+		</summary>
+		 */
 		public List<double> Inputs { get; }
 		public NeuronType Type { get; }
 		/**
@@ -15,6 +20,7 @@ namespace NeuronLibrary.Models
 		</summary>
 		**/
 		public double Output { get; private set; }
+
 		public double Delta { get; private set; }
 		/**
 		 *<param name="inputCount">count input neurons</param>

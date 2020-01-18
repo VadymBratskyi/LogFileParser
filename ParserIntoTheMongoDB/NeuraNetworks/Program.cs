@@ -9,7 +9,8 @@ namespace NeuraNetworks
 		static void Main(string[] args)
 		{
 			Console.WriteLine("Hello Neuro Network!");
-
+			Console.WriteLine("Human is sick-1");
+			Console.WriteLine("Human is helthi-0");
 			//Result -- Human is sick-1
 			//			Human is helthi-0
 
