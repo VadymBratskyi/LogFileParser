@@ -11,17 +11,63 @@ namespace NeuraNetworks
 		static void Main(string[] args)
 		{
 			Console.WriteLine("Hello Neuro Network!");
-
-			var converter = new PictureConvector();
-			var inputs = converter.Convert(@"C:\GithubProject\LogFileParser\ParserIntoTheMongoDB\NeuraNetworks\images\Parasitized.png");
-			converter.Save("D:\\image.png", inputs);
+			//сверточная нейро сеть
+			RecognizeImage();
 
 			//RunNeuronNetworks1();
 			//RunNeuronNetworks2();
 			//RunNeuronNetworks3();
 
+			//ConverImageToBlackWhite();
+
 			Console.ReadKey();
 		}
+
+		public static void RecognizeImage()
+		{
+			var size = 10000; 
+			var parasitizedPath = @"C:\Users\Vadim\Downloads\cell_images\Parasitized";
+			var uninfectedPath = @"C:\Users\Vadim\Downloads\cell_images\Uninfected";
+
+			var converter = new PictureConvector();
+
+			var testParasitizedImageInput = converter.Convert(@"C:\GithubProject\LogFileParser\ParserIntoTheMongoDB\NeuraNetworks\images\Parasitized.png");
+			var testUninfectedImageInput = converter.Convert(@"C:\GithubProject\LogFileParser\ParserIntoTheMongoDB\NeuraNetworks\images\Unparasitized.png");
+
+			var topology = new Topology(testParasitizedImageInput.Count, 1, 0.1, testParasitizedImageInput.Count / 2);
+			var neuronNetwork = new NeuronNetworks(topology);
+
+			double[,] parasitizedInputs = GetData(parasitizedPath, converter, testParasitizedImageInput, size);
+			neuronNetwork.Learning(new double[] { 1 }, parasitizedInputs, 1);
+
+			double[,] uninfectedInputs = GetData(parasitizedPath, converter, testUninfectedImageInput, size);
+			neuronNetwork.Learning(new double[] { 0 }, uninfectedInputs, 1);
+
+			var par = neuronNetwork.FeedForward(testParasitizedImageInput.Select(t => (double)t).ToArray());
+			var unpar = neuronNetwork.FeedForward(testUninfectedImageInput.Select(t => (double)t).ToArray());
+
+			Console.WriteLine("1"+" "+ Math.Round(par.Output, 2));
+			Console.WriteLine("0"+" "+ Math.Round(unpar.Output, 2));
+		}
+		private static double[,] GetData(string parasitizedPath, PictureConvector converter, List<int> testImageInput, int size)
+		{
+			var images = Directory.GetFiles(parasitizedPath);
+			var result = new double[testImageInput.Count, size];
+			for (int i = 0; i < size; i++)
+			{
+				var image = converter.Convert(images[i]);
+				for (int j = 0; j < image.Count; j++)
+				{
+					result[i, j] = image[j];
+				}
+			}
+			return result;
+		}
+		public static void ConverImageToBlackWhite() {
+			var converter = new PictureConvector();
+			var inputs = converter.Convert(@"C:\GithubProject\LogFileParser\ParserIntoTheMongoDB\NeuraNetworks\images\Parasitized.png");
+			converter.Save("D:\\image.png", inputs);
+		} 
 		public static void RunNeuronNetworks3() {
 
 			var outputs = new List<double>();
@@ -39,7 +85,6 @@ namespace NeuraNetworks
 					inputs.Add(input);
 				}
 			}
-
 			var inputSignals = new double[inputs.Count, inputs[0].Length];
 			for (int i = 0; i < inputSignals.GetLength(0); i++)
 			{
@@ -48,11 +93,9 @@ namespace NeuraNetworks
 					inputSignals[i, j] = inputs[i][j];
 				}
 			}
-
 			var topology = new Topology(outputs.Count, 1, 0.1, outputs.Count / 2);
 			var neuronNetwork = new NeuronNetworks(topology);
 			var difference = neuronNetwork.Learning(outputs.ToArray(), inputSignals, 10);
-
 			var result = new List<double>();
 			for (int i = 0; i < outputs.Count; i++)
 			{
