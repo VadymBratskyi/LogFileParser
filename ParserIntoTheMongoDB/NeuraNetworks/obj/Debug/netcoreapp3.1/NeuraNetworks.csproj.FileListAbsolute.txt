@@ -12,3 +12,8 @@ C:\GithubProject\LogFileParser\ParserIntoTheMongoDB\NeuraNetworks\obj\Debug\netc
 C:\GithubProject\LogFileParser\ParserIntoTheMongoDB\NeuraNetworks\bin\Debug\netcoreapp3.1\NeuronLibrary.dll
 C:\GithubProject\LogFileParser\ParserIntoTheMongoDB\NeuraNetworks\bin\Debug\netcoreapp3.1\NeuronLibrary.pdb
 C:\GithubProject\LogFileParser\ParserIntoTheMongoDB\NeuraNetworks\obj\Debug\netcoreapp3.1\NeuraNetworks.csproj.CopyComplete
+C:\GithubProject\LogFileParser\ParserIntoTheMongoDB\NeuraNetworks\bin\Debug\netcoreapp3.1\Microsoft.Win32.SystemEvents.dll
+C:\GithubProject\LogFileParser\ParserIntoTheMongoDB\NeuraNetworks\bin\Debug\netcoreapp3.1\System.Drawing.Common.dll
+C:\GithubProject\LogFileParser\ParserIntoTheMongoDB\NeuraNetworks\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp3.0\Microsoft.Win32.SystemEvents.dll
+C:\GithubProject\LogFileParser\ParserIntoTheMongoDB\NeuraNetworks\bin\Debug\netcoreapp3.1\runtimes\unix\lib\netcoreapp3.0\System.Drawing.Common.dll
+C:\GithubProject\LogFileParser\ParserIntoTheMongoDB\NeuraNetworks\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp3.0\System.Drawing.Common.dll

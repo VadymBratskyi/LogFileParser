@@ -65,7 +65,7 @@ namespace NeuronLibrary
 				for (int j = 0; j < expected.Length; j++)
 				{
 					var output = expected[j];
-					var input = GetRow(signals, j);
+					var input = GetRow(inputs, j);
 					error += BackPropagation(output, input);
 				}
 			}			

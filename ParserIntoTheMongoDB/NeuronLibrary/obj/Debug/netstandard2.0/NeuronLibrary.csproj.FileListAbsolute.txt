@@ -5,3 +5,4 @@ C:\GithubProject\LogFileParser\ParserIntoTheMongoDB\NeuronLibrary\obj\Debug\nets
 C:\GithubProject\LogFileParser\ParserIntoTheMongoDB\NeuronLibrary\obj\Debug\netstandard2.0\NeuronLibrary.AssemblyInfo.cs
 C:\GithubProject\LogFileParser\ParserIntoTheMongoDB\NeuronLibrary\obj\Debug\netstandard2.0\NeuronLibrary.dll
 C:\GithubProject\LogFileParser\ParserIntoTheMongoDB\NeuronLibrary\obj\Debug\netstandard2.0\NeuronLibrary.pdb
+C:\GithubProject\LogFileParser\ParserIntoTheMongoDB\NeuronLibrary\obj\Debug\netstandard2.0\NeuronLibrary.csprojAssemblyReference.cache

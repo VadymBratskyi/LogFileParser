@@ -12,9 +12,13 @@ namespace NeuraNetworks
 		{
 			Console.WriteLine("Hello Neuro Network!");
 
+			var converter = new PictureConvector();
+			var inputs = converter.Convert(@"C:\GithubProject\LogFileParser\ParserIntoTheMongoDB\NeuraNetworks\images\Parasitized.png");
+			converter.Save("D:\\image.png", inputs);
+
 			//RunNeuronNetworks1();
 			//RunNeuronNetworks2();
-			RunNeuronNetworks3();
+			//RunNeuronNetworks3();
 
 			Console.ReadKey();
 		}
