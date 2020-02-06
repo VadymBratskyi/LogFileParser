@@ -1,0 +1,13 @@
+C:\GithubProject\LogFileParser\ParserIntoTheMongoDB\MedicalSystemNetworks\bin\Debug\MedicalSystemNetworks.exe.config
+C:\GithubProject\LogFileParser\ParserIntoTheMongoDB\MedicalSystemNetworks\bin\Debug\MedicalSystemNetworks.exe
+C:\GithubProject\LogFileParser\ParserIntoTheMongoDB\MedicalSystemNetworks\bin\Debug\MedicalSystemNetworks.pdb
+C:\GithubProject\LogFileParser\ParserIntoTheMongoDB\MedicalSystemNetworks\bin\Debug\NeuronLibrary.dll
+C:\GithubProject\LogFileParser\ParserIntoTheMongoDB\MedicalSystemNetworks\bin\Debug\NeuronLibrary.pdb
+C:\GithubProject\LogFileParser\ParserIntoTheMongoDB\MedicalSystemNetworks\obj\Debug\MedicalSystemNetworks.csprojAssemblyReference.cache
+C:\GithubProject\LogFileParser\ParserIntoTheMongoDB\MedicalSystemNetworks\obj\Debug\MedicalSystemNetworks.Form1.resources
+C:\GithubProject\LogFileParser\ParserIntoTheMongoDB\MedicalSystemNetworks\obj\Debug\MedicalSystemNetworks.Properties.Resources.resources
+C:\GithubProject\LogFileParser\ParserIntoTheMongoDB\MedicalSystemNetworks\obj\Debug\MedicalSystemNetworks.csproj.GenerateResource.cache
+C:\GithubProject\LogFileParser\ParserIntoTheMongoDB\MedicalSystemNetworks\obj\Debug\MedicalSystemNetworks.csproj.CopyComplete
+C:\GithubProject\LogFileParser\ParserIntoTheMongoDB\MedicalSystemNetworks\obj\Debug\MedicalSystemNetworks.exe
+C:\GithubProject\LogFileParser\ParserIntoTheMongoDB\MedicalSystemNetworks\obj\Debug\MedicalSystemNetworks.pdb
+C:\GithubProject\LogFileParser\ParserIntoTheMongoDB\MedicalSystemNetworks\obj\Debug\MedicalSystemNetworks.AboutBox1.resources
