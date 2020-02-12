@@ -30,5 +30,10 @@ namespace MedicalSystemNetworks {
 			}
 			
 		}
+
+		private void enterToolStripMenuItem_Click(object sender, EventArgs e) {
+			var form2 = new Form2();
+			form2.ShowForm();
+		}
 	}
 }

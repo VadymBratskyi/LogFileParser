@@ -11,3 +11,4 @@ C:\GithubProject\LogFileParser\ParserIntoTheMongoDB\MedicalSystemNetworks\obj\De
 C:\GithubProject\LogFileParser\ParserIntoTheMongoDB\MedicalSystemNetworks\obj\Debug\MedicalSystemNetworks.exe
 C:\GithubProject\LogFileParser\ParserIntoTheMongoDB\MedicalSystemNetworks\obj\Debug\MedicalSystemNetworks.pdb
 C:\GithubProject\LogFileParser\ParserIntoTheMongoDB\MedicalSystemNetworks\obj\Debug\MedicalSystemNetworks.AboutBox1.resources
+C:\GithubProject\LogFileParser\ParserIntoTheMongoDB\MedicalSystemNetworks\obj\Debug\MedicalSystemNetworks.Form2.resources
